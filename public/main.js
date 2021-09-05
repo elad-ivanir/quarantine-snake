@@ -1,1 +1,1 @@
-console.log("test app");
+(()=>{"use strict";console.log("hello")})();

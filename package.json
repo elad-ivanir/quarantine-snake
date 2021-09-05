@@ -4,12 +4,14 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "webpack"
+    "build:prod": "webpack --mode=production",
+    "start:dev": "webpack serve --mode=development"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0"
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.1.0"
   }
 }
