@@ -10,6 +10,4 @@ A snake is defined by a collection of edges like so:
 
 ]
 
-A snake goes in a certain direction (can be deduced by the last 2 edges)
-
-- Define a `Direction` object?
+A snake goes in a certain direction (can be deduced by the last 2 edges) - direction is an angle in radians

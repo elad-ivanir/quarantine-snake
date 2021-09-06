@@ -1,25 +1,56 @@
-import { Direction, InvertDirection } from "../utils/Enumerations";
+import {
+  areOpposite,
+  getAngle,
+  getDistance,
+  getDistantPoint,
+} from "./Utilities";
 
-function getDirection(edge1, edge2) {
-  if (!edge1 || !edge2) return Direction.UNKNOWN;
+// TODO: null checks
+// TODO: allow multi-unit steps?
 
-  const verticalDistance = edge2.y - edge1.y;
-  const horizonticalDistance = edge2.x - edge1.x;
-
-  if (verticalDistance > 0) return Direction.DOWN;
-  else if (verticalDistance < 0) return Direction.UP;
-  else if (horizonticalDistance > 0) return Direction.RIGHT;
-  else if (horizonticalDistance < 0) return Direction.LEFT;
-
-  return Direction.UNKNOWN;
-}
-
-function addToHead(snake, direction) {
-  const headEdges = (snake.edges || []).slice(-2);
-  const headDirection = getDirection(...headEdges);
-  if (direction === InvertDirection[headDirection]) {
+function extendHead(snake, direction) {
+  const headEdges = snake.headEdges.slice(-2);
+  const headDirection = getAngle(...headEdges);
+  if (areOpposite(headDirection, direction)) {
     return;
   }
+  const newEdge = getDistantPoint(
+    snake.edges[snake.edges.length],
+    1,
+    direction
+  );
+  const edges = snake.edges.splice(
+    -1,
+    direction === headDirection ? 1 : 0,
+    newEdge
+  );
+  return {
+    ...snake,
+    edges,
+  };
 }
 
-export function makeStep(snake, direction) {}
+function reduceEnd(snake) {
+  const tailEdges = snake.edges.slice(0, 2);
+  const tailLength = getDistance(...tailEdges);
+  if (tailLength <= 1) {
+    return {
+      ...snake,
+      edges: tailEdges.slice(1),
+    };
+  }
+  const tailReverseDirection = getAngle(...tailEdges.reverse());
+  const newEnd = getDistantPoint(
+    tailEdges[1],
+    tailLength - 1,
+    tailReverseDirection
+  );
+  return {
+    ...snake,
+    edges: tailEdges.splice(0, 1, newEnd),
+  };
+}
+
+export function makeStep(snake, direction) {
+  return reduceEnd(extendHead(snake, direction));
+}
