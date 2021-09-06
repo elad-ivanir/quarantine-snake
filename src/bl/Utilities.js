@@ -2,7 +2,7 @@ export function areOpposite(angle1, angle2) {
   return Math.abs(angle2 - angle1) === Math.PI;
 }
 
-export function getDistantPoint(sourcePoint, distance, angle) {
+export function createDistantPoint(sourcePoint, distance, angle) {
   const x = sourcePoint.x + distance * Math.sin(angle);
   const y = sourcePoint.y + distance * Math.cos(angle);
   return { x, y };
@@ -20,7 +20,7 @@ export function getAngle(point1, point2) {
   const angle = Math.atan(dX / dY);
   /* get positive represntation of angle in case of negative */
   const absoluteAngle = angle >= 0 ? angle : angle + Math.PI;
-  /* get angle in case of reverse direction, TODO: make cleaner? */
+  /* get angle in case of reverse direction */
   if (dX < 0) {
     return absoluteAngle + Math.PI;
   } else if (dX === 0) {

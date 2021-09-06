@@ -2,7 +2,7 @@ import {
   areOpposite,
   getAngle,
   getDistance,
-  getDistantPoint,
+  createDistantPoint,
 } from "./Utilities";
 
 // TODO: null checks
@@ -14,7 +14,7 @@ function extendHead(snake, direction) {
   if (areOpposite(headDirection, direction)) {
     return;
   }
-  const newEdge = getDistantPoint(
+  const newEdge = createDistantPoint(
     snake.edges[snake.edges.length],
     1,
     direction
@@ -40,7 +40,7 @@ function reduceEnd(snake) {
     };
   }
   const tailReverseDirection = getAngle(...tailEdges.reverse());
-  const newEnd = getDistantPoint(
+  const newEnd = createDistantPoint(
     tailEdges[1],
     tailLength - 1,
     tailReverseDirection
