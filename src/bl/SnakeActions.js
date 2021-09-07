@@ -21,7 +21,7 @@ function extendHead(snake, direction) {
   );
   const edges = snake.edges.splice(
     -1,
-    direction === headDirection ? 1 : 0,
+    direction === headDirection ? 1 : 0, // create new edge if direction has changed
     newEdge
   );
   return {
