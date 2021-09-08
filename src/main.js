@@ -1,4 +1,6 @@
-import "./ui/GameBoard";
+import "./ui/components/GameBoardDisplay";
 
-const board = document.createElement("game-board");
-document.body.appendChild(board);
+(function main() {
+  const board = document.createElement("game-board-display");
+  document.body.appendChild(board);
+})();
