@@ -1,3 +1,9 @@
+function getSlope(point1, point2) {
+  const dY = point2.y - point1.y;
+  const dX = point2.x - point1.x;
+  return dY / dX;
+}
+
 export function areOpposite(angle1, angle2) {
   return Math.abs(angle2 - angle1) === Math.PI;
 }
@@ -28,4 +34,11 @@ export function getAngle(point1, point2) {
   } else {
     return absoluteAngle;
   }
+}
+
+export function lineIncludesPoint(linePoint1, linePoint2, otherPoint) {
+  return (
+    getDistance(linePoint1, linePoint2) ===
+    getDistance(linePoint1, otherPoint) + getDistance(otherPoint, linePoint2)
+  );
 }

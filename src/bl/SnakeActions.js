@@ -3,10 +3,10 @@ import {
   getAngle,
   getDistance,
   createDistantPoint,
-} from "./Utilities";
+  lineIncludesPoint,
+} from "./MathUtils";
 
 // TODO: null checks
-// TODO: allow multi-unit steps?
 
 function extendHead(snake, direction) {
   const headEdges = snake.headEdges.slice(-2);
@@ -53,4 +53,13 @@ function reduceEnd(snake) {
 
 export function makeStep(snake, direction) {
   return reduceEnd(extendHead(snake, direction));
+}
+
+export function snakeIncludesPoint(snake, point) {
+  for (let i = 0; i < snake.edges.length - 1; i++) {
+    if (lineIncludesPoint(snake.edges[i], snake.edges[i + 1], point)) {
+      return true;
+    }
+  }
+  return false;
 }
