@@ -1,20 +1,14 @@
-import {
-  areOpposite,
-  getAngle,
-  getDistance,
-  createDistantPoint,
-  lineIncludesPoint,
-} from "./MathUtils";
+import * as mathUtils from "./MathUtils";
 
 // TODO: null checks
 
 function extendHead(snake, direction) {
   const headEdges = snake.headEdges.slice(-2);
-  const headDirection = getAngle(...headEdges);
-  if (areOpposite(headDirection, direction)) {
+  const headDirection = mathUtils.getAngle(...headEdges);
+  if (mathUtils.areOpposite(headDirection, direction)) {
     return;
   }
-  const newEdge = createDistantPoint(
+  const newEdge = mathUtils.createDistantPoint(
     snake.edges[snake.edges.length],
     1,
     direction
@@ -39,8 +33,8 @@ function reduceEnd(snake) {
       edges: tailEdges.slice(1),
     };
   }
-  const tailReverseDirection = getAngle(...tailEdges.reverse());
-  const newEnd = createDistantPoint(
+  const tailReverseDirection = mathUtils.getAngle(...tailEdges.reverse());
+  const newEnd = mathUtils.createDistantPoint(
     tailEdges[1],
     tailLength - 1,
     tailReverseDirection
@@ -57,7 +51,9 @@ export function makeStep(snake, direction) {
 
 export function snakeIncludesPoint(snake, point) {
   for (let i = 0; i < snake.edges.length - 1; i++) {
-    if (lineIncludesPoint(snake.edges[i], snake.edges[i + 1], point)) {
+    if (
+      mathUtils.lineIncludesPoint(snake.edges[i], snake.edges[i + 1], point)
+    ) {
       return true;
     }
   }
