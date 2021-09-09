@@ -1,37 +1,64 @@
 import { Board } from "../../bl/Board";
 import { Snake } from "../../bl/Snake";
+import { makeStep } from "../../bl/SnakeActions";
 import { DirectionKey } from "../../utils/Enumerations";
+import { drawSnakeOnCanvas } from "../adapters/SnakeDisplayAdapters";
 import styles from "./GameBoardDisplay.scss";
 
 class GameBoardDisplay extends HTMLElement {
   constructor() {
     super();
-    this.board = new Board(20, 20);
   }
 
   connectedCallback() {
     this.render();
+    this.initializeEvents();
+    this.initializeState(); // TODO: fix - state depends on events
+  }
+
+  connectedCallback() {
+    this.clearEvents();
+  }
+
+  initializeEvents() {
     window.addEventListener("load", this.handleCanvasLoad);
     window.addEventListener("keydown", this.handleKeyDown);
   }
 
+  clearEvents() {
+    window.removeEventListener("load", this.handleCanvasLoad);
+    window.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  initializeState() {
+    this.board = new Board(20, 20);
+    this.updateSnake(
+      new Snake([
+        { x: 2, y: 2 },
+        { x: 4, y: 2 },
+      ])
+    );
+  }
+
+  updateSnake(snake) {
+    this.snake = snake;
+    this.drawSnake();
+  }
+
   handleCanvasLoad() {
-    const snake = new Snake([
-      { x: 2, y: 2 },
-      { x: 4, y: 2 },
-    ]);
     const canvas = document.getElementById("game-board-canvas");
-    this.ctx = canvas.getContext("2d");
-    this.ctx.beginPath();
-    this.ctx.moveTo(snake.edges[0].x * 30, snake.edges[0].y * 30);
-    this.ctx.lineTo(snake.edges[1].x * 30, snake.edges[1].y * 30);
-    this.ctx.stroke();
-    // this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.canvasContext = canvas.getContext("2d");
   }
 
   handleKeyDown(e) {
-    console.log(e);
     const direction = DirectionKey[e.key];
+    if (!direction) return;
+    const newSnake = makeStep(this.snake, direction);
+    this.updateSnake(newSnake);
+  }
+
+  drawSnake() {
+    drawSnakeOnCanvas(this.snake, this.canvasContext);
   }
 
   render() {
