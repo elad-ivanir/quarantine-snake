@@ -11,57 +11,55 @@ class GameBoardDisplay extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
+    this.initializeState();
+    this.mountHTML();
+    this.initializeCanvasContext();
     this.initializeEvents();
-    this.initializeState(); // TODO: fix - state depends on events
   }
 
-  connectedCallback() {
+  disconnectedCallback() {
     this.clearEvents();
-  }
-
-  initializeEvents() {
-    window.addEventListener("load", this.handleCanvasLoad);
-    window.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  clearEvents() {
-    window.removeEventListener("load", this.handleCanvasLoad);
-    window.removeEventListener("keydown", this.handleKeyDown);
   }
 
   initializeState() {
     this.board = new Board(20, 20);
-    this.updateSnake(
-      new Snake([
-        { x: 2, y: 2 },
-        { x: 4, y: 2 },
-      ])
-    );
+    this.snake = new Snake([
+      { x: 2, y: 2 },
+      { x: 4, y: 2 },
+    ]);
   }
 
-  updateSnake(snake) {
+  initializeEvents = () => {
+    window.addEventListener("keydown", this.handleKeyDown);
+  };
+
+  clearEvents = () => {
+    window.removeEventListener("keydown", this.handleKeyDown);
+  };
+
+  updateSnake = (snake) => {
     this.snake = snake;
     this.drawSnake();
-  }
+  };
 
-  handleCanvasLoad() {
+  initializeCanvasContext = () => {
     const canvas = document.getElementById("game-board-canvas");
     this.canvasContext = canvas.getContext("2d");
-  }
+    this.drawSnake();
+  };
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     const direction = DirectionKey[e.key];
     if (!direction) return;
     const newSnake = makeStep(this.snake, direction);
     this.updateSnake(newSnake);
-  }
+  };
 
-  drawSnake() {
-    drawSnakeOnCanvas(this.snake, this.canvasContext);
-  }
+  drawSnake = () => {
+    drawSnakeOnCanvas(this.snake, this.canvasContext, 30, 30);
+  };
 
-  render() {
+  mountHTML = () => {
     this.innerHTML = `
     <canvas
       id="game-board-canvas"
@@ -73,7 +71,7 @@ class GameBoardDisplay extends HTMLElement {
       >
     </canvas>
   `;
-  }
+  };
 }
 
 window.customElements.define("game-board-display", GameBoardDisplay);

@@ -1,18 +1,12 @@
-function getSlope(point1, point2) {
-  const dY = point2.y - point1.y;
-  const dX = point2.x - point1.x;
-  return dY / dX;
-}
-
 export function areOpposite(angle1, angle2) {
-  return Math.abs(angle2 - angle1) === Math.PI;
+  return floatEquals(Math.abs(angle2 - angle1), Math.PI);
 }
 
 export function createDistantPoint(sourcePoint, distance, angle) {
   const x = sourcePoint.x + distance * Math.sin(angle);
   const y = sourcePoint.y + distance * Math.cos(angle);
   return { x, y };
-} // TODO: check correctness
+} // TODO: function NOT correct!
 
 export function getDistance(point1, point2) {
   const dY = point2.y - point1.y;
@@ -37,8 +31,16 @@ export function getAngle(point1, point2) {
 }
 
 export function lineIncludesPoint(linePoint1, linePoint2, otherPoint) {
-  return (
-    getDistance(linePoint1, linePoint2) ===
+  return floatEquals(
+    getDistance(linePoint1, linePoint2),
     getDistance(linePoint1, otherPoint) + getDistance(otherPoint, linePoint2)
+  );
+}
+
+export function floatEquals(float1, float2) {
+  const precision = 12;
+  return (
+    parseFloat(float1).toPrecision(precision) ===
+    parseFloat(float2).toPrecision(precision)
   );
 }

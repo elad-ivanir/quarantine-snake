@@ -3,21 +3,22 @@ import * as mathUtils from "./MathUtils";
 // TODO: null checks
 
 function extendHead(snake, direction) {
-  const headEdges = snake.headEdges.slice(-2);
+  const headEdges = snake.edges.slice(-2);
   const headDirection = mathUtils.getAngle(...headEdges);
   if (mathUtils.areOpposite(headDirection, direction)) {
-    return;
+    return snake;
   }
+  debugger;
   const newEdge = mathUtils.createDistantPoint(
-    snake.edges[snake.edges.length],
+    snake.edges[snake.edges.length - 1],
     1,
     direction
   );
-  const edges = snake.edges.splice(
-    -1,
-    direction === headDirection ? 1 : 0, // create new edge if direction has changed
-    newEdge
-  );
+
+  const edges = mathUtils.floatEquals(headDirection, direction)
+    ? [...snake.edges.slice(0, -1), newEdge]
+    : [...snake.edges, newEdge];
+
   return {
     ...snake,
     edges,
@@ -26,14 +27,14 @@ function extendHead(snake, direction) {
 
 function reduceEnd(snake) {
   const tailEdges = snake.edges.slice(0, 2);
-  const tailLength = getDistance(...tailEdges);
+  const tailLength = mathUtils.getDistance(...tailEdges);
   if (tailLength <= 1) {
     return {
       ...snake,
       edges: tailEdges.slice(1),
     };
   }
-  const tailReverseDirection = mathUtils.getAngle(...tailEdges.reverse());
+  const tailReverseDirection = mathUtils.getAngle(tailEdges[1], tailEdges[0]);
   const newEnd = mathUtils.createDistantPoint(
     tailEdges[1],
     tailLength - 1,
@@ -41,7 +42,7 @@ function reduceEnd(snake) {
   );
   return {
     ...snake,
-    edges: tailEdges.splice(0, 1, newEnd),
+    edges: [newEnd, ...snake.edges.slice(1)],
   };
 }
 
