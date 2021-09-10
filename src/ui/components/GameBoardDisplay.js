@@ -25,7 +25,7 @@ class GameBoardDisplay extends HTMLElement {
     this.board = new Board(20, 20);
     this.snake = new Snake([
       { x: 2, y: 4 },
-      { x: 4, y: 4 },
+      { x: 10, y: 4 },
     ]);
   }
 
@@ -63,11 +63,9 @@ class GameBoardDisplay extends HTMLElement {
     this.innerHTML = `
     <canvas
       id="game-board-canvas"
-      class=${styles.gameBoardCanvas}
-      style="
-        height: ${this.board.height * 30}px;
-        width: ${this.board.width * 30}px;
-      "
+      class="${styles.gameBoardCanvas}"
+      height="${this.board.height * 30}px"
+      width="${this.board.width * 30}px"
       >
     </canvas>
   `;
