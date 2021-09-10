@@ -1,7 +1,7 @@
 import { generateTrophyLocation } from "./GameUtils";
 import { isInFrontOfSnake, makeStep as snakeMakeStep } from "./SnakeActions";
 
-export class GameManager {
+export class Game {
   constructor(board, snake) {
     this.board = board;
     this.snake = snake;
