@@ -20,17 +20,22 @@ export class GameManager {
       this.currentDirection,
       isInFrontOfSnake(this.snake, this.currentTrophyLocation)
     );
-    if (this.isGameOver()) {
+    if (!this.isGameStateValid()) {
       this.stop();
     }
   };
 
-  isGameOver = () => {
-    return false;
+  isGameRunning = () => {
+    return !!this.gameLoopId;
+  };
+
+  isGameStateValid = () => {
+    return true;
   };
 
   stop = () => {
     clearInterval(this.gameLoopId);
+    this.gameLoopId = undefined;
   };
 
   setDirection = (direction) => {
