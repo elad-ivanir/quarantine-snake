@@ -8,7 +8,3 @@ export function generateTrophyLocation(snake, board) {
   } while (snakeIncludesPoint(snake, point));
   return point;
 }
-
-export function isGameOver(snake, board) {
-  return false;
-}

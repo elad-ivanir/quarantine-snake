@@ -1,4 +1,5 @@
-import { generateTrophyLocation } from "./GameActions";
+import { generateTrophyLocation } from "./GameUtils";
+import { isInFrontOfSnake, makeStep } from "./SnakeActions";
 
 export class GameManager {
   constructor(board, snake) {
@@ -10,7 +11,22 @@ export class GameManager {
   }
 
   start = () => {
-    this.gameLoopId = setInterval(() => {}, this.gameLoopInterval);
+    this.gameLoopId = setInterval(makeStep, this.gameLoopInterval);
+  };
+
+  makeStep = () => {
+    this.snake = makeStep(
+      this.snake,
+      this.currentDirection,
+      isInFrontOfSnake(this.snake, this.currentTrophyLocation)
+    );
+    if (this.isGameOver()) {
+      this.stop();
+    }
+  };
+
+  isGameOver = () => {
+    return false;
   };
 
   stop = () => {
