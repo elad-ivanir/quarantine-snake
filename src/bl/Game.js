@@ -1,5 +1,9 @@
 import { generateTrophyLocation } from "./GameUtils";
-import { isInFrontOfSnake, makeStep as snakeMakeStep } from "./SnakeActions";
+import {
+  isInFrontOfSnake,
+  makeStep as snakeMakeStep,
+  getSnakeHeadDirection,
+} from "./SnakeActions";
 
 export class Game {
   constructor(board, snake) {
@@ -7,11 +11,11 @@ export class Game {
     this.snake = snake;
     this.currentTrophyLocation = generateTrophyLocation(this.snake, this.board);
     this.currentDirection = getSnakeHeadDirection(this.snake);
-    this.gameLoopInterval = 100;
+    this.gameLoopInterval = 10;
   }
 
   start = () => {
-    this.gameLoopId = setInterval(makeStep, this.gameLoopInterval);
+    this.gameLoopId = setInterval(this.makeStep, this.gameLoopInterval);
   };
 
   makeStep = () => {
@@ -23,10 +27,7 @@ export class Game {
     if (!this.isGameStateValid()) {
       this.stop();
     }
-  };
-
-  isGameRunning = () => {
-    return !!this.gameLoopId;
+    this.onStep && this.onStep();
   };
 
   isGameStateValid = () => {
@@ -36,6 +37,7 @@ export class Game {
   stop = () => {
     clearInterval(this.gameLoopId);
     this.gameLoopId = undefined;
+    this.onGameStopped && this.onGameStopped();
   };
 
   setDirection = (direction) => {

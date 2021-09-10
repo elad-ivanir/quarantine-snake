@@ -1,9 +1,11 @@
 import { Board } from "../../bl/Board";
 import { Snake } from "../../bl/Snake";
+import { Game } from "../../bl/Game";
 import { makeStep } from "../../bl/SnakeActions";
 import { DirectionKey } from "../../utils/Enumerations";
-import { drawSnakeOnCanvas } from "../adapters/SnakeDisplayAdapters";
+import { BOARD_HEIGHT, BOARD_WIDTH, DEFAULT_SNAKE_EDGES } from "../constants";
 import styles from "./GameBoardDisplay.scss";
+import { drawGameOnCanvas } from "../UiUtils";
 
 class GameBoardDisplay extends HTMLElement {
   constructor() {
@@ -22,41 +24,44 @@ class GameBoardDisplay extends HTMLElement {
   }
 
   initializeState() {
-    this.board = new Board(20, 20);
-    this.snake = new Snake([
-      { x: 2, y: 4 },
-      { x: 10, y: 4 },
-    ]);
+    const board = new Board(BOARD_HEIGHT, BOARD_WIDTH);
+    const snake = new Snake(DEFAULT_SNAKE_EDGES);
+    this.game = new Game(board, snake);
+    this.game.onStep = this.handleStep;
   }
 
   initializeEvents = () => {
     window.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener("load", this.handleLoad);
   };
 
   clearEvents = () => {
     window.removeEventListener("keydown", this.handleKeyDown);
-  };
-
-  updateSnake = (snake) => {
-    this.snake = snake;
-    this.drawSnake();
+    window.removeEventListener("load", this.handleLoad);
   };
 
   initializeCanvasContext = () => {
     const canvas = document.getElementById("game-board-canvas");
     this.canvasContext = canvas.getContext("2d");
-    this.drawSnake();
+    this.drawCurrentState();
   };
 
   handleKeyDown = (e) => {
     const direction = DirectionKey[e.key];
     if (typeof direction !== "number") return;
-    const newSnake = makeStep(this.snake, direction);
-    this.updateSnake(newSnake);
+    this.game.setDirection(direction);
   };
 
-  drawSnake = () => {
-    drawSnakeOnCanvas(this.snake, this.canvasContext, 30, 30);
+  handleLoad = () => {
+    this.game.start();
+  };
+
+  handleStep = () => {
+    this.drawCurrentState();
+  };
+
+  drawCurrentState = () => {
+    drawGameOnCanvas(this.game, this.canvasContext);
   };
 
   mountHTML = () => {
@@ -64,8 +69,8 @@ class GameBoardDisplay extends HTMLElement {
     <canvas
       id="game-board-canvas"
       class="${styles.gameBoardCanvas}"
-      height="${this.board.height * 30}px"
-      width="${this.board.width * 30}px"
+      height="${this.game.board.height}px"
+      width="${this.game.board.width}px"
       >
     </canvas>
   `;
