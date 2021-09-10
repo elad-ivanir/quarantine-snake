@@ -19,13 +19,16 @@ export class Game {
   };
 
   makeStep = () => {
-    this.snake = snakeMakeStep(
-      this.snake,
-      this.currentDirection,
-      isInFrontOfSnake(this.snake, this.currentTrophyLocation)
-    );
+    const isEating = isInFrontOfSnake(this.snake, this.currentTrophyLocation);
+    this.snake = snakeMakeStep(this.snake, this.currentDirection, isEating);
     if (!this.isGameStateValid()) {
       this.stop();
+    }
+    if (isEating) {
+      this.currentTrophyLocation = generateTrophyLocation(
+        this.snake,
+        this.board
+      );
     }
     this.onStep && this.onStep();
   };

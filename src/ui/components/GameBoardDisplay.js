@@ -1,7 +1,6 @@
 import { Board } from "../../bl/Board";
 import { Snake } from "../../bl/Snake";
 import { Game } from "../../bl/Game";
-import { makeStep } from "../../bl/SnakeActions";
 import { DirectionKey } from "../../utils/Enumerations";
 import { BOARD_HEIGHT, BOARD_WIDTH, DEFAULT_SNAKE_EDGES } from "../constants";
 import styles from "./GameBoardDisplay.scss";
