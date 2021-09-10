@@ -39,21 +39,32 @@ function reduceEnd(snake) {
   };
 }
 
-function getSnakeHeadDirection(snake) {
-  const headEdges = snake.edges.slice(-2);
-  return mathUtils.getAngle(...headEdges);
-}
-
 function isStepPossible(snake, direction) {
   const headDirection = getSnakeHeadDirection(snake);
   return !mathUtils.areOpposite(headDirection, direction);
 }
 
-export function makeStep(snake, direction) {
+export function getSnakeHeadDirection(snake) {
+  const headEdges = snake.edges.slice(-2);
+  return mathUtils.getAngle(...headEdges);
+}
+
+export function makeStep(snake, direction, isEating = false) {
   if (!isStepPossible(snake, direction)) {
     return snake;
   }
-  return reduceEnd(extendHead(snake, direction));
+  const extendedSnake = extendHead(snake, direction);
+  return isEating ? extendedSnake : reduceEnd(extendedSnake);
+}
+
+export function isInFrontOfSnake(snake, point) {
+  const direction = getSnakeHeadDirection(snake);
+  const pointInFront = mathUtils.createDistantPoint(
+    snake.edges[snake.edges.length - 1],
+    1,
+    direction
+  );
+  return mathUtils.pointEquals(point, pointInFront);
 }
 
 export function snakeIncludesPoint(snake, point) {

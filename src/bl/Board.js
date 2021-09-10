@@ -1,7 +1,6 @@
 export class Board {
-  constructor(height, width, trophyLocation) {
+  constructor(height, width) {
     this.height = height;
     this.width = width;
-    this.trophyLocation = trophyLocation;
   }
 }
