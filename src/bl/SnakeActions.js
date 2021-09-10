@@ -1,7 +1,5 @@
 import * as mathUtils from "./MathUtils";
 
-// TODO: null checks
-
 function extendHead(snake, direction) {
   const headDirection = getSnakeHeadDirection(snake);
   const newEdge = mathUtils.createDistantPoint(
