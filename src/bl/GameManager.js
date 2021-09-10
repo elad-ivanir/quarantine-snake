@@ -1,5 +1,5 @@
 import { generateTrophyLocation } from "./GameUtils";
-import { isInFrontOfSnake, makeStep } from "./SnakeActions";
+import { isInFrontOfSnake, makeStep as snakeMakeStep } from "./SnakeActions";
 
 export class GameManager {
   constructor(board, snake) {
@@ -15,7 +15,7 @@ export class GameManager {
   };
 
   makeStep = () => {
-    this.snake = makeStep(
+    this.snake = snakeMakeStep(
       this.snake,
       this.currentDirection,
       isInFrontOfSnake(this.snake, this.currentTrophyLocation)
