@@ -6,7 +6,7 @@ export function createDistantPoint(sourcePoint, distance, angle) {
   const x = sourcePoint.x + distance * Math.sin(angle);
   const y = sourcePoint.y + distance * Math.cos(angle);
   return { x, y };
-} // TODO: function NOT correct!
+}
 
 export function getDistance(point1, point2) {
   const dY = point2.y - point1.y;

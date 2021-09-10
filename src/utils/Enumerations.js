@@ -1,7 +1,7 @@
 export const Direction = {
-  UP: 0,
+  DOWN: 0,
   RIGHT: Math.PI / 2,
-  DOWN: Math.PI,
+  UP: Math.PI,
   LEFT: (Math.PI * 3) / 2,
 };
 

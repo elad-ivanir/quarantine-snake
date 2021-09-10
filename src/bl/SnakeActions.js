@@ -3,12 +3,7 @@ import * as mathUtils from "./MathUtils";
 // TODO: null checks
 
 function extendHead(snake, direction) {
-  const headEdges = snake.edges.slice(-2);
-  const headDirection = mathUtils.getAngle(...headEdges);
-  if (mathUtils.areOpposite(headDirection, direction)) {
-    return snake;
-  }
-  debugger;
+  const headDirection = getSnakeHeadDirection(snake);
   const newEdge = mathUtils.createDistantPoint(
     snake.edges[snake.edges.length - 1],
     1,
@@ -31,7 +26,7 @@ function reduceEnd(snake) {
   if (tailLength <= 1) {
     return {
       ...snake,
-      edges: tailEdges.slice(1),
+      edges: snake.edges.slice(1),
     };
   }
   const tailReverseDirection = mathUtils.getAngle(tailEdges[1], tailEdges[0]);
@@ -46,7 +41,20 @@ function reduceEnd(snake) {
   };
 }
 
+function getSnakeHeadDirection(snake) {
+  const headEdges = snake.edges.slice(-2);
+  return mathUtils.getAngle(...headEdges);
+}
+
+function isStepPossible(snake, direction) {
+  const headDirection = getSnakeHeadDirection(snake);
+  return !mathUtils.areOpposite(headDirection, direction);
+}
+
 export function makeStep(snake, direction) {
+  if (!isStepPossible(snake, direction)) {
+    return snake;
+  }
   return reduceEnd(extendHead(snake, direction));
 }
 

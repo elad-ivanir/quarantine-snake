@@ -24,8 +24,8 @@ class GameBoardDisplay extends HTMLElement {
   initializeState() {
     this.board = new Board(20, 20);
     this.snake = new Snake([
-      { x: 2, y: 2 },
-      { x: 4, y: 2 },
+      { x: 2, y: 4 },
+      { x: 4, y: 4 },
     ]);
   }
 
@@ -50,7 +50,7 @@ class GameBoardDisplay extends HTMLElement {
 
   handleKeyDown = (e) => {
     const direction = DirectionKey[e.key];
-    if (!direction) return;
+    if (typeof direction !== "number") return;
     const newSnake = makeStep(this.snake, direction);
     this.updateSnake(newSnake);
   };
