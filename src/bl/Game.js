@@ -1,8 +1,9 @@
 import { generateTrophyLocation } from "./GameUtils";
+import { areOpposite } from "./MathUtils";
 import {
-  isInFrontOfSnake,
   makeStep as snakeMakeStep,
   getSnakeHeadDirection,
+  snakeIntersectsWithSquare,
 } from "./SnakeActions";
 
 export class Game {
@@ -19,7 +20,10 @@ export class Game {
   };
 
   makeStep = () => {
-    const isEating = isInFrontOfSnake(this.snake, this.currentTrophyLocation);
+    const isEating = snakeIntersectsWithSquare(
+      this.snake,
+      this.currentTrophyLocation
+    );
     this.snake = snakeMakeStep(this.snake, this.currentDirection, isEating);
     if (!this.isGameStateValid()) {
       this.stop();
@@ -44,6 +48,8 @@ export class Game {
   };
 
   setDirection = (direction) => {
-    this.currentDirection = direction;
+    if (!areOpposite(direction, this.currentDirection)) {
+      this.currentDirection = direction;
+    }
   };
 }

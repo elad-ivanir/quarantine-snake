@@ -36,13 +36,6 @@ export function getAngle(point1, point2) {
   }
 }
 
-export function lineIncludesPoint(linePoint1, linePoint2, otherPoint) {
-  return floatEquals(
-    getDistance(linePoint1, linePoint2),
-    getDistance(linePoint1, otherPoint) + getDistance(otherPoint, linePoint2)
-  );
-}
-
 export function floatEquals(float1, float2) {
   const precision = 12;
   return (
@@ -51,13 +44,32 @@ export function floatEquals(float1, float2) {
   );
 }
 
-export function pointEquals(point1, point2) {
-  return floatEquals(point1.x, point2.x) && floatEquals(point1.y, point2.y);
+export function generateRandomSquare(maxX, maxY, size) {
+  return {
+    x: randomInt(0, maxX - size),
+    y: randomInt(0, maxY - size),
+    size,
+  };
 }
 
-export function generateRandomPoint(maxX, maxY) {
-  return {
-    x: randomInt(0, maxX),
-    y: randomInt(0, maxY),
-  };
+export function lineIntersectsWithSquare(linePoint1, linePoint2, square) {
+  const squareXRange = [square.x, square.x + square.size];
+  const squareYRange = [square.y, square.y + square.size];
+  const lineXRange = [linePoint1.x, linePoint2.x];
+  const lineYRange = [linePoint1.y, linePoint2.y];
+
+  return (
+    rangeIncludesPartOfRange(lineXRange, squareXRange) &&
+    rangeIncludesPartOfRange(lineYRange, squareYRange)
+  );
+}
+
+function rangeIncludesPartOfRange(includedRange, includingRange) {
+  const isMinIncluded =
+    Math.min(...includedRange) > Math.min(includingRange) &&
+    Math.min(...includedRange) < Math.max(...includingRange);
+  const isMaxIncluded =
+    Math.max(...includedRange) > Math.min(...includingRange) &&
+    Math.max(...includedRange) < Math.max(...includingRange);
+  return isMinIncluded || isMaxIncluded;
 }

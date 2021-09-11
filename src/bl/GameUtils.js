@@ -1,10 +1,11 @@
-import { generateRandomPoint } from "./MathUtils";
-import { snakeIncludesPoint } from "./SnakeActions";
+import { generateRandomSquare } from "./MathUtils";
+import { snakeIntersectsWithSquare } from "./SnakeActions";
 
 export function generateTrophyLocation(snake, board) {
-  let point;
+  let square;
+  const squareSize = 20;
   do {
-    point = generateRandomPoint(board.width, board.height);
-  } while (snakeIncludesPoint(snake, point));
-  return point;
+    square = generateRandomSquare(board.width, board.height, squareSize);
+  } while (snakeIntersectsWithSquare(snake, square));
+  return square;
 }

@@ -1,6 +1,6 @@
-function drawPoint(point, ctx, diameter = 2) {
+function drawSquare(square, ctx) {
   ctx.beginPath();
-  ctx.fillRect(point.x, point.y, diameter, diameter);
+  ctx.fillRect(square.x, square.y, square.size, square.size);
 }
 
 function drawSnake(snake, ctx) {
@@ -16,5 +16,5 @@ export function drawGameOnCanvas(game, ctx) {
   // TODO: more efficent to only delete snake rectangle?
   ctx.clearRect(0, 0, game.board.width, game.board.height);
   drawSnake(game.snake, ctx);
-  drawPoint(game.currentTrophyLocation, ctx);
+  drawSquare(game.currentTrophyLocation, ctx);
 }

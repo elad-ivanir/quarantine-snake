@@ -57,20 +57,14 @@ export function makeStep(snake, direction, isEating = false) {
   return isEating ? extendedSnake : reduceEnd(extendedSnake);
 }
 
-export function isInFrontOfSnake(snake, point) {
-  const direction = getSnakeHeadDirection(snake);
-  const pointInFront = mathUtils.createDistantPoint(
-    snake.edges[snake.edges.length - 1],
-    1,
-    direction
-  );
-  return mathUtils.pointEquals(point, pointInFront);
-}
-
-export function snakeIncludesPoint(snake, point) {
+export function snakeIntersectsWithSquare(snake, square) {
   for (let i = 0; i < snake.edges.length - 1; i++) {
     if (
-      mathUtils.lineIncludesPoint(snake.edges[i], snake.edges[i + 1], point)
+      mathUtils.lineIntersectsWithSquare(
+        snake.edges[i],
+        snake.edges[i + 1],
+        square
+      )
     ) {
       return true;
     }
