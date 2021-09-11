@@ -59,8 +59,10 @@ export function lineIntersectsWithSquare(linePoint1, linePoint2, square) {
   const lineYRange = [linePoint1.y, linePoint2.y];
 
   return (
-    rangeIncludesPartOfRange(lineXRange, squareXRange) &&
-    rangeIncludesPartOfRange(lineYRange, squareYRange)
+    (rangeIncludesPartOfRange(lineXRange, squareXRange) ||
+      rangeIncludesPartOfRange(squareXRange, lineXRange)) &&
+    (rangeIncludesPartOfRange(lineYRange, squareYRange) ||
+      rangeIncludesPartOfRange(squareYRange, lineYRange))
   );
 }
 
