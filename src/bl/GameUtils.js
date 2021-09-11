@@ -1,9 +1,13 @@
+import { DEFAULT_TROPHY_SIZE } from "./constants";
 import { generateRandomSquare } from "./MathUtils";
 import { snakeIntersectsWithSquare } from "./SnakeActions";
 
-export function generateTrophyLocation(snake, board) {
+export function generateTrophyLocation(
+  snake,
+  board,
+  squareSize = DEFAULT_TROPHY_SIZE
+) {
   let square;
-  const squareSize = 20;
   do {
     square = generateRandomSquare(board.width, board.height, squareSize);
   } while (snakeIntersectsWithSquare(snake, square));

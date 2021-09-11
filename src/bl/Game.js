@@ -1,3 +1,4 @@
+import { DEFAULT_GAME_INTERVAL } from "./constants";
 import { generateTrophyLocation } from "./GameUtils";
 import { areOpposite } from "./MathUtils";
 import {
@@ -12,7 +13,7 @@ export class Game {
     this.snake = snake;
     this.currentTrophyLocation = generateTrophyLocation(this.snake, this.board);
     this.currentDirection = getSnakeHeadDirection(this.snake);
-    this.gameLoopInterval = 10;
+    this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
   }
 
   start = () => {
