@@ -1,10 +1,10 @@
 import * as mathUtils from "./MathUtils";
 
-function extendHead(snake, direction) {
+function extendHead(snake, direction, count = 1) {
   const headDirection = getSnakeHeadDirection(snake);
   const newEdge = mathUtils.createDistantPoint(
     snake.edges[snake.edges.length - 1],
-    1,
+    count,
     direction
   );
 
@@ -49,12 +49,12 @@ export function getSnakeHeadDirection(snake) {
   return mathUtils.getAngle(...headEdges);
 }
 
-export function makeStep(snake, direction, isEating = false) {
+export function makeStep(snake, direction, eatCount = 0) {
   if (!isStepPossible(snake, direction)) {
     return snake;
   }
-  const extendedSnake = extendHead(snake, direction);
-  return isEating ? extendedSnake : reduceEnd(extendedSnake);
+  const extendedSnake = extendHead(snake, direction, eatCount + 1);
+  return eatCount ? extendedSnake : reduceEnd(extendedSnake);
 }
 
 export function snakeIntersectsWithSquare(snake, square) {

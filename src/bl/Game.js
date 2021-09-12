@@ -11,13 +11,17 @@ export class Game {
   constructor(board, snake) {
     this.board = board;
     this.snake = snake;
-    this.currentTrophyLocation = generateTrophyLocation(this.snake, this.board);
-    this.currentDirection = getSnakeHeadDirection(this.snake);
-    this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
   }
 
   start = () => {
+    this.resetState();
     this.gameLoopId = setInterval(this.makeStep, this.gameLoopInterval);
+  };
+
+  resetState = () => {
+    this.currentTrophyLocation = generateTrophyLocation(this.snake, this.board);
+    this.currentDirection = getSnakeHeadDirection(this.snake);
+    this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
   };
 
   makeStep = () => {
@@ -25,7 +29,11 @@ export class Game {
       this.snake,
       this.currentTrophyLocation
     );
-    this.snake = snakeMakeStep(this.snake, this.currentDirection, isEating);
+    this.snake = snakeMakeStep(
+      this.snake,
+      this.currentDirection,
+      isEating ? this.currentTrophyLocation.size : 0
+    );
     if (!this.isGameStateValid()) {
       this.stop();
     }

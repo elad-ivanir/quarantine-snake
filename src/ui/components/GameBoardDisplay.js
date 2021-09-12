@@ -42,7 +42,6 @@ class GameBoardDisplay extends HTMLElement {
   initializeCanvasContext = () => {
     const canvas = document.getElementById("game-board-canvas");
     this.canvasContext = canvas.getContext("2d");
-    this.drawCurrentState();
   };
 
   handleKeyDown = (e) => {
@@ -53,6 +52,7 @@ class GameBoardDisplay extends HTMLElement {
 
   handleLoad = () => {
     this.game.start();
+    this.drawCurrentState();
   };
 
   handleStep = () => {
