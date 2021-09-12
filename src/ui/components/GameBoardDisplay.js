@@ -4,7 +4,8 @@ import { Game } from "../../bl/Game";
 import { DirectionKey } from "../../utils/Enumerations";
 import { BOARD_HEIGHT, BOARD_WIDTH, DEFAULT_SNAKE_EDGES } from "../constants";
 import styles from "./GameBoardDisplay.scss";
-import { drawGameOnCanvas } from "../UiUtils";
+import { drawSnake, drawSquareAsCircle } from "../UiUtils";
+import backgroundImageSrc from "../../assets/images/board-background.png";
 
 class GameBoardDisplay extends HTMLElement {
   constructor() {
@@ -60,19 +61,39 @@ class GameBoardDisplay extends HTMLElement {
   };
 
   drawCurrentState = () => {
-    drawGameOnCanvas(this.game, this.canvasContext);
+    this.canvasContext.clearRect(
+      0,
+      0,
+      this.game.board.width,
+      this.game.board.height
+    );
+    drawSnake(this.game.snake, this.canvasContext, "#ffffff", 3);
+    drawSquareAsCircle(
+      this.game.currentTrophyLocation,
+      this.canvasContext,
+      "#fc190d"
+    );
   };
 
   mountHTML = () => {
-    this.innerHTML = `
-    <canvas
-      id="game-board-canvas"
-      class="${styles.gameBoardCanvas}"
-      height="${this.game.board.height}px"
-      width="${this.game.board.width}px"
-      >
-    </canvas>
-  `;
+    const wrapper = document.createElement("div");
+    wrapper.className = styles.gameBoardWrapper;
+
+    const boardCanvas = document.createElement("canvas");
+    boardCanvas.id = "game-board-canvas";
+    boardCanvas.className = styles.gameBoardCanvas;
+    boardCanvas.height = this.game.board.height;
+    boardCanvas.width = this.game.board.width;
+
+    const backgroundImage = document.createElement("img");
+    backgroundImage.className = styles.gameBoardBackground;
+    backgroundImage.src = backgroundImageSrc;
+    backgroundImage.height = boardCanvas.height;
+    backgroundImage.width = boardCanvas.width;
+
+    wrapper.appendChild(backgroundImage);
+    wrapper.appendChild(boardCanvas);
+    this.appendChild(wrapper);
   };
 }
 

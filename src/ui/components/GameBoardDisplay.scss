@@ -1,3 +1,13 @@
+.gameBoardWrapper {
+  position: relative;
+}
+
 .gameBoardCanvas {
-  border: 3px black solid;
+  position: absolute;
+}
+
+.gameBoardBackground {
+  position: absolute;
+  border-radius: 3px;
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.4);
 }

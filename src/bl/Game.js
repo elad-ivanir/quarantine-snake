@@ -29,10 +29,11 @@ export class Game {
       this.snake,
       this.currentTrophyLocation
     );
+    const trophySize = this.currentTrophyLocation.size;
     this.snake = snakeMakeStep(
       this.snake,
       this.currentDirection,
-      isEating ? this.currentTrophyLocation.size : 0
+      isEating ? trophySize : 0
     );
     if (!this.isGameStateValid()) {
       this.stop();
