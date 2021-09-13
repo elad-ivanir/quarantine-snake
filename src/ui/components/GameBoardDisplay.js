@@ -81,15 +81,13 @@ class GameBoardDisplay extends HTMLElement {
 
     const boardCanvas = document.createElement("canvas");
     boardCanvas.id = "game-board-canvas";
-    boardCanvas.className = styles.gameBoardCanvas;
+    boardCanvas.className = `${styles.gameBoardCanvas} ${styles.fullSize}`;
     boardCanvas.height = this.game.board.height;
     boardCanvas.width = this.game.board.width;
 
     const backgroundImage = document.createElement("img");
-    backgroundImage.className = styles.gameBoardBackground;
+    backgroundImage.className = `${styles.gameBoardBackground} ${styles.fullSize}`;
     backgroundImage.src = backgroundImageSrc;
-    backgroundImage.height = boardCanvas.height;
-    backgroundImage.width = boardCanvas.width;
 
     wrapper.appendChild(backgroundImage);
     wrapper.appendChild(boardCanvas);
