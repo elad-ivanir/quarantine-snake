@@ -24,7 +24,7 @@ export class Game {
     this.setScore(0);
     this.currentTrophy = generateTrophyLocation(this.snake, this.board);
     this.currentDirection = getSnakeHeadDirection(this.snake);
-    this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
+    this.gameLoopInterval = DEFAULT_GAME_INTERVAL; // TODO: move constant?
   };
 
   makeStep = () => {
