@@ -2,7 +2,11 @@ import { Board } from "../../bl/Board";
 import { Snake } from "../../bl/Snake";
 import { Game } from "../../bl/Game";
 import { DirectionKey } from "../../utils/Enumerations";
-import { BOARD_HEIGHT, BOARD_WIDTH, DEFAULT_SNAKE_EDGES } from "../constants";
+import {
+  BOARD_HEIGHT,
+  BOARD_WIDTH,
+  DEFAULT_SNAKE_EDGES,
+} from "../..utils/Constants";
 import styles from "./GameBoardDisplay.scss";
 import { drawSnake, drawSquareAsCircle } from "../UiUtils";
 import backgroundImageSrc from "../../assets/images/board-background.png";

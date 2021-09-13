@@ -1,4 +1,4 @@
-import { DEFAULT_TROPHY_SIZE } from "./constants";
+import { DEFAULT_TROPHY_SIZE } from "../utils/Constants";
 import { generateRandomSquare } from "./MathUtils";
 import { snakeIntersectsWithSquare } from "./SnakeActions";
 
