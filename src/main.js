@@ -1,5 +1,4 @@
 import "./ui/components/HomePage";
-import "./ui/components/GameBoardDisplay";
 
 import bodyBackgroundSrc from "./assets/images/body-background.jpg";
 

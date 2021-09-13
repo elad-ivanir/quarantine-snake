@@ -5,38 +5,39 @@ import { GameEvents } from "../utils/Enumerations";
 export class ObservableGame extends Game {
   constructor(board, snake) {
     super(board, snake);
-    this.listeners = createObject(Object.keys(GameEvents), []);
+    this.listeners = createObject(Object.values(GameEvents), []);
+    this.generateNewTrophy = this.generateNewTrophy.bind(this);
   }
 
-  subscribe = (listener, event) => {
-    this.listeners[event].push(listener);
-  };
+  subscribe(listener, event) {
+    this.listeners[event] = [...this.listeners[event], listener];
+  }
 
-  notify = (event, data) => {
+  notify(event) {
     this.listeners[event].forEach((listener) => {
       if (typeof listener === "function") {
-        listener(data);
+        listener(this);
       }
     });
-  };
+  }
 
-  setScore = (...args) => {
+  setScore(...args) {
     super.setScore(...args);
-    this.notify(GameEvents.SCORE_CHANGED, this.score);
-  };
+    this.notify(GameEvents.SCORE_CHANGED);
+  }
 
-  stop = () => {
+  stop() {
     super.stop();
     this.notify(GameEvents.STOP);
-  };
+  }
 
-  makeStep = (...args) => {
+  makeStep(...args) {
     super.makeStep(...args);
-    this.notify(GameEvents.STEP, this.snake);
-  };
+    this.notify(GameEvents.STEP);
+  }
 
-  generateNewTrophy = () => {
+  generateNewTrophy() {
     super.generateNewTrophy();
-    this.notify(GameEvents.TROPHY_CREATED, this.currentTrophy);
-  };
+    this.notify(GameEvents.TROPHY_CREATED);
+  }
 }

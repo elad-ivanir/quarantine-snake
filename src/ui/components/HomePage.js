@@ -1,4 +1,5 @@
 import styles from "./HomePage.scss";
+import "./GameBoardDisplay";
 
 class HomePage extends HTMLElement {
   constructor() {

@@ -1,6 +1,7 @@
 import GameContext from "../../context/GameContext";
 import { GameEvents } from "../../../utils/Enumerations";
 import { drawSquareAsCircle } from "../../UiUtils";
+import styles from "./GameBoardLayers.scss";
 
 class BoardTrophyLayer extends HTMLElement {
   constructor() {
@@ -10,7 +11,7 @@ class BoardTrophyLayer extends HTMLElement {
   connectedCallback() {
     this.mountHTML();
     this.initializeCanvasContext();
-    GameContext.subscribe(GameEvents.TROPHY_CREATED, this.handleTrophyUpdated);
+    GameContext.subscribe(this.handleTrophyUpdated, GameEvents.TROPHY_CREATED);
   }
 
   initializeCanvasContext = () => {
@@ -18,7 +19,11 @@ class BoardTrophyLayer extends HTMLElement {
     this.canvasContext = canvas.getContext("2d");
   };
 
-  handleTrophyUpdated = (trophySquare) => {
+  handleTrophyUpdated = (game) => {
+    this.drawTrophy(game.currentTrophy);
+  };
+
+  drawTrophy = (trophySquare) => {
     this.canvasContext.clearRect(
       0,
       0,
@@ -32,6 +37,7 @@ class BoardTrophyLayer extends HTMLElement {
     const canvas = document.createElement("canvas");
     canvas.height = GameContext.board.height;
     canvas.width = GameContext.board.width;
+    canvas.className = styles.gameBoardLayer;
     this.appendChild(canvas);
   };
 }

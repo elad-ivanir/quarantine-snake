@@ -11,7 +11,7 @@ class BoardSnakeLayer extends HTMLElement {
   connectedCallback() {
     this.mountHTML();
     this.initializeCanvasContext();
-    GameContext.subscribe(GameEvents.STEP, this.handleStep);
+    GameContext.subscribe(this.handleStep, GameEvents.STEP);
   }
 
   initializeCanvasContext = () => {
@@ -19,21 +19,21 @@ class BoardSnakeLayer extends HTMLElement {
     this.canvasContext = canvas.getContext("2d");
   };
 
-  handleStep = (snake) => {
+  handleStep = (game) => {
     this.canvasContext.clearRect(
       0,
       0,
       GameContext.board.width,
       GameContext.board.height
     );
-    drawSnake(snake, this.canvasContext, "#ffffff", "3px");
+    drawSnake(game.snake, this.canvasContext, "#ffffff", 3);
   };
 
   mountHTML = () => {
     const canvas = document.createElement("canvas");
     canvas.height = GameContext.board.height;
     canvas.width = GameContext.board.width;
-    this.className = styles.gameBoardLayerCanvas;
+    this.className = styles.gameBoardLayer;
     this.appendChild(canvas);
   };
 }
