@@ -1,11 +1,6 @@
 import { createObject } from "./MiscUtils";
 import { Game } from "./Game";
-
-export const GameEvents = {
-  STOP: "stop",
-  STEP: "step",
-  SCORE_CHANGED: "score",
-};
+import { GameEvents } from "../utils/Enumerations";
 
 export class ObservableGame extends Game {
   constructor(board, snake) {
@@ -25,9 +20,9 @@ export class ObservableGame extends Game {
     });
   };
 
-  setScore = (score) => {
-    super.setScore(score);
-    this.notify(GameEvents.SCORE_CHANGED, score);
+  setScore = (...args) => {
+    super.setScore(...args);
+    this.notify(GameEvents.SCORE_CHANGED, this.score);
   };
 
   stop = () => {
@@ -37,6 +32,11 @@ export class ObservableGame extends Game {
 
   makeStep = (...args) => {
     super.makeStep(...args);
-    this.notify(GameEvents.STEP);
+    this.notify(GameEvents.STEP, this.snake);
+  };
+
+  generateNewTrophy = () => {
+    super.generateNewTrophy();
+    this.notify(GameEvents.TROPHY_CREATED, this.currentTrophy);
   };
 }

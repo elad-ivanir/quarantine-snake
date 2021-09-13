@@ -40,7 +40,7 @@ export class Game {
     }
     if (isEating) {
       this.setScore(this.score + this.currentTrophy.size);
-      this.currentTrophy = generateTrophyLocation(this.snake, this.board);
+      this.generateNewTrophy();
     }
   };
 
@@ -64,5 +64,9 @@ export class Game {
 
   setScore = (score) => {
     this.score += score;
+  };
+
+  generateNewTrophy = () => {
+    this.currentTrophy = generateTrophyLocation(this.snake, this.board);
   };
 }

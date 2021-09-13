@@ -11,3 +11,10 @@ export const DirectionKey = {
   ArrowDown: Direction.DOWN,
   ArrowLeft: Direction.LEFT,
 };
+
+export const GameEvents = {
+  STOP: "stop",
+  STEP: "step",
+  SCORE_CHANGED: "score",
+  TROPHY_CREATED: "trophy",
+};
