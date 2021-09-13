@@ -66,6 +66,13 @@ export function lineIntersectsWithSquare(linePoint1, linePoint2, square) {
   );
 }
 
+export function lineIncludesPoint(linePoint1, linePoint2, otherPoint) {
+  const wholeDistance = getDistance(linePoint1, linePoint2);
+  const part1Distance = getDistance(linePoint1, otherPoint);
+  const part2Distance = getDistance(otherPoint, linePoint2);
+  return floatEquals(wholeDistance, part1Distance + part2Distance);
+}
+
 function rangeIncludesPartOfRange(includedRange, includingRange) {
   const isMinIncluded =
     Math.min(...includedRange) > Math.min(includingRange) &&

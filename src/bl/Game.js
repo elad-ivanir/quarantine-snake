@@ -5,6 +5,8 @@ import {
   makeStep as snakeMakeStep,
   getSnakeHeadDirection,
   snakeIntersectsWithSquare,
+  snakeHitsBounds,
+  snakeHitsItself,
 } from "./SnakeActions";
 
 export class Game {
@@ -48,7 +50,10 @@ export class Game {
   };
 
   isGameStateValid = () => {
-    return true;
+    return !(
+      snakeHitsBounds(this.snake, this.board.width, this.board.height) ||
+      snakeHitsItself(this.snake)
+    );
   };
 
   stop = () => {

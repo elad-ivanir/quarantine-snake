@@ -71,3 +71,23 @@ export function snakeIntersectsWithSquare(snake, square) {
   }
   return false;
 }
+
+export function snakeHitsItself(snake) {
+  const head = snake.edges[snake.edges.length - 1];
+  const rest = snake.edges.slice(0, -1);
+  for (let i = 0; i < rest.length - 1; i++) {
+    if (mathUtils.lineIncludesPoint(snake.edges[i], snake.edges[i + 1], head))
+      return true;
+  }
+  return false;
+}
+
+export function snakeHitsBounds(snake, xBound, yBound) {
+  const head = snake.edges[snake.edges.length - 1];
+  return (
+    mathUtils.floatEquals(head.x, 0) ||
+    mathUtils.floatEquals(head.y, 0) ||
+    mathUtils.floatEquals(head.x, xBound) ||
+    mathUtils.floatEquals(head.y, yBound)
+  );
+}
