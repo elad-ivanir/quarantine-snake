@@ -21,17 +21,15 @@ export class Game {
   };
 
   resetState = () => {
-    this.currentTrophyLocation = generateTrophyLocation(this.snake, this.board);
+    this.setScore(0);
+    this.currentTrophy = generateTrophyLocation(this.snake, this.board);
     this.currentDirection = getSnakeHeadDirection(this.snake);
     this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
   };
 
   makeStep = () => {
-    const isEating = snakeIntersectsWithSquare(
-      this.snake,
-      this.currentTrophyLocation
-    );
-    const trophySize = this.currentTrophyLocation.size;
+    const isEating = snakeIntersectsWithSquare(this.snake, this.currentTrophy);
+    const trophySize = this.currentTrophy.size;
     this.snake = snakeMakeStep(
       this.snake,
       this.currentDirection,
@@ -41,12 +39,9 @@ export class Game {
       this.stop();
     }
     if (isEating) {
-      this.currentTrophyLocation = generateTrophyLocation(
-        this.snake,
-        this.board
-      );
+      this.setScore(this.score + this.currentTrophy.size);
+      this.currentTrophy = generateTrophyLocation(this.snake, this.board);
     }
-    this.onStep && this.onStep();
   };
 
   isGameStateValid = () => {
@@ -59,12 +54,15 @@ export class Game {
   stop = () => {
     clearInterval(this.gameLoopId);
     this.gameLoopId = undefined;
-    this.onGameStopped && this.onGameStopped();
   };
 
   setDirection = (direction) => {
     if (!areOpposite(direction, this.currentDirection)) {
       this.currentDirection = direction;
     }
+  };
+
+  setScore = (score) => {
+    this.score += score;
   };
 }
