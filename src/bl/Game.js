@@ -7,12 +7,12 @@ import {
   snakeIntersectsWithSquare,
   snakeHitsBounds,
   snakeHitsItself,
+  generateRandomSnake,
 } from "./SnakeActions";
 
 export class Game {
-  constructor(board, snake) {
+  constructor(board) {
     this.board = board;
-    this.snake = snake;
 
     this.start = this.start.bind(this);
     this.resetState = this.resetState.bind(this);
@@ -22,6 +22,7 @@ export class Game {
     this.setDirection = this.setDirection.bind(this);
     this.setScore = this.setScore.bind(this);
     this.generateNewTrophy = this.generateNewTrophy.bind(this);
+    this.generateNewSnake = this.generateNewSnake.bind(this);
   }
 
   start() {
@@ -31,6 +32,7 @@ export class Game {
 
   resetState() {
     this.setScore(0);
+    this.generateNewSnake();
     this.generateNewTrophy();
     this.currentDirection = getSnakeHeadDirection(this.snake);
     this.gameLoopInterval = DEFAULT_GAME_INTERVAL;
@@ -77,5 +79,9 @@ export class Game {
 
   generateNewTrophy() {
     this.currentTrophy = generateTrophyLocation(this.snake, this.board);
+  }
+
+  generateNewSnake() {
+    this.snake = generateRandomSnake(this.board.width, this.board.height);
   }
 }

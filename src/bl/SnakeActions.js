@@ -1,3 +1,4 @@
+import { Snake } from "./Snake";
 import * as mathUtils from "./MathUtils";
 
 function extendHead(snake, direction, count = 1) {
@@ -90,4 +91,24 @@ export function snakeHitsBounds(snake, xBound, yBound) {
     mathUtils.floatEquals(head.x, xBound) ||
     mathUtils.floatEquals(head.y, yBound)
   );
+}
+
+export function generateRandomSnake(maxX, maxY) {
+  // only generates horizontical snakes, perhaps will be improved in the future
+  const y = mathUtils.randomInt(0, maxY);
+  let x1, x2;
+  do {
+    x1 = mathUtils.randomInt(0, maxX);
+    x2 = mathUtils.randomInt(0, maxX);
+  } while (x1 === x2);
+  return new Snake([
+    {
+      x: Math.min(x1, x2),
+      y,
+    },
+    {
+      x: Math.max(x1, x2),
+      y,
+    },
+  ]);
 }

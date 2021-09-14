@@ -3,8 +3,8 @@ import { Game } from "./Game";
 import { GameEvents } from "../utils/Enumerations";
 
 export class ObservableGame extends Game {
-  constructor(board, snake) {
-    super(board, snake);
+  constructor(board) {
+    super(board);
     this.listeners = createObject(Object.values(GameEvents), []);
   }
 
@@ -43,5 +43,10 @@ export class ObservableGame extends Game {
   generateNewTrophy() {
     super.generateNewTrophy();
     this.notify(GameEvents.TROPHY_CREATED);
+  }
+
+  generateNewSnake() {
+    super.generateNewSnake();
+    this.notify(GameEvents.STEP);
   }
 }
