@@ -6,7 +6,6 @@ export class ObservableGame extends Game {
   constructor(board, snake) {
     super(board, snake);
     this.listeners = createObject(Object.values(GameEvents), []);
-    this.generateNewTrophy = this.generateNewTrophy.bind(this);
   }
 
   subscribe(listener, event) {
@@ -24,6 +23,11 @@ export class ObservableGame extends Game {
   setScore(...args) {
     super.setScore(...args);
     this.notify(GameEvents.SCORE_CHANGED);
+  }
+
+  start() {
+    super.start();
+    this.notify(GameEvents.START);
   }
 
   stop() {

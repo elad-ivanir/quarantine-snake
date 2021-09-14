@@ -13,6 +13,7 @@ export const DirectionKey = {
 };
 
 export const GameEvents = {
+  START: "start",
   STOP: "stop",
   STEP: "step",
   SCORE_CHANGED: "score",

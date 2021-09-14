@@ -1,9 +1,10 @@
-import { DirectionKey } from "../../utils/Enumerations";
+import { DirectionKey, GameEvents } from "../../utils/Enumerations";
 import styles from "./GameBoardDisplay.scss";
 import GameContext from "../context/GameContext";
 import "./gameBoardLayers/BoardBackgroundLayer";
 import "./gameBoardLayers/BoardSnakeLayer";
 import "./gameBoardLayers/BoardTrophyLayer";
+import "./gameBoardLayers/BoardGameOverLayer";
 
 class GameBoardDisplay extends HTMLElement {
   constructor() {
@@ -11,8 +12,10 @@ class GameBoardDisplay extends HTMLElement {
   }
 
   connectedCallback() {
-    this.mountHTML();
+    this.mountGameHTML();
     this.initializeEvents();
+    GameContext.subscribe(this.handleGameStopped, GameEvents.STOP);
+    GameContext.subscribe(this.handleGameStarted, GameEvents.START);
   }
 
   disconnectedCallback() {
@@ -39,7 +42,15 @@ class GameBoardDisplay extends HTMLElement {
     GameContext.setDirection(direction);
   };
 
-  mountHTML = () => {
+  handleGameStopped = () => {
+    this.mountGameOverHTML();
+  };
+
+  handleGameStarted = () => {
+    this.unmountGameOverHTML();
+  };
+
+  mountGameHTML = () => {
     const wrapper = document.createElement("div");
     wrapper.className = styles.gameBoardWrapper;
 
@@ -51,6 +62,22 @@ class GameBoardDisplay extends HTMLElement {
     wrapper.appendChild(trohpyLayer);
 
     this.appendChild(wrapper);
+  };
+
+  mountGameOverHTML = () => {
+    const wrapper = this.getElementsByClassName(styles.gameBoardWrapper)[0];
+    const gameOverScreen = document.createElement("board-game-over-layer");
+    wrapper.appendChild(gameOverScreen);
+  };
+
+  unmountGameOverHTML = () => {
+    const gameOverScreen = this.getElementsByTagName(
+      "board-game-over-layer"
+    )[0];
+    if (gameOverScreen) {
+      const wrapper = this.getElementsByClassName(styles.gameBoardWrapper)[0];
+      wrapper.removeChild(gameOverScreen);
+    }
   };
 }
 
