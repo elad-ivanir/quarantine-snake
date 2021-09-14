@@ -1,5 +1,5 @@
 import "./ui/components/HomePage";
-
+import "./main.scss";
 import bodyBackgroundSrc from "./assets/images/body-background.jpg";
 
 function main() {
